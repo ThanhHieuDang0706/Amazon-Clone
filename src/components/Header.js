@@ -3,7 +3,7 @@ import Image from "next/image";
 import {
   MagnifyingGlassIcon,
   ShoppingCartIcon,
-  Bars3Icon
+  Bars3Icon,
 } from "@heroicons/react/24/outline";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
@@ -31,8 +31,7 @@ const Header = () => {
         </div>
 
         {/* Search */}
-        <div
-          className="hidden sm:flex items-center h-10 rounded-md cursor-pointer flex-grow    bg-yellow-400 hover:bg-yellow-500">
+        <div className="hidden sm:flex items-center h-10 rounded-md cursor-pointer flex-grow    bg-yellow-400 hover:bg-yellow-500">
           <input
             className="p-2 h-full w-6 flex-grow flex-shrink rounded-l-md focus:outline-none px-4"
             type="text"
@@ -52,9 +51,11 @@ const Header = () => {
             <p className="font-extrabold md:text-sm">& Orders</p>
           </div>
 
-          <div onClick={() => router.push("/checkout")} className="relative link flex items-center">
-            <span
-              className="absolute top-0 right-0 md:right-10 h-4 w-4 bg-yellow-400 text-center rounded-full text-black font-bold">
+          <div
+            onClick={() => router.push("/checkout")}
+            className="relative link flex items-center"
+          >
+            <span className="absolute top-0 right-0 md:right-10 h-4 w-4 bg-yellow-400 text-center rounded-full text-black font-bold">
               {items.length}
             </span>
 
