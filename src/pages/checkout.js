@@ -24,7 +24,16 @@ const Checkout = () => {
       items,
       email: session.user.email,
     });
-    
+
+    // redirect user to Stripe checkout
+    const result = await stripe.redirectToCheckout({
+      sessionId: checkoutSession.data.sessionId,
+    });
+
+    // handle error
+    if (result.error) {
+      alert(result.error.message);
+    }
   };
 
   return (
@@ -50,7 +59,7 @@ const Checkout = () => {
 
             {items.map((item, i) => (
               <CheckoutProduct
-                key={item.id}
+                key={i}
                 id={item.id}
                 title={item.title}
                 price={item.price}
