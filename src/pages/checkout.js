@@ -9,7 +9,7 @@ import { useSession } from "next-auth/react";
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
 
-const stripePromise = loadStripe(process.env.STRIPE_PUBLIC_KEY);
+const stripePromise = loadStripe(process.env.stripe_public_key);
 
 const Checkout = () => {
   const items = useSelector(selectItems);
@@ -18,7 +18,6 @@ const Checkout = () => {
 
   const createCheckoutSession = async () => {
     const stripe = await stripePromise;
-
     // Create a Checkout Session from backend
     const checkoutSession = await axios.post("/api/create-checkout-session", {
       items,
@@ -27,7 +26,7 @@ const Checkout = () => {
 
     // redirect user to Stripe checkout
     const result = await stripe.redirectToCheckout({
-      sessionId: checkoutSession.data.sessionId,
+      sessionId: checkoutSession.data.id,
     });
 
     // handle error
