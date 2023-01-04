@@ -41,4 +41,4 @@ yarn-error.log*
 yarn.lock
 package-lock.json
 
-permission.json
+permissions.json
