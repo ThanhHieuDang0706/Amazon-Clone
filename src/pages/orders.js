@@ -3,6 +3,7 @@ import Header from "../components/Header";
 import { getSession, useSession } from "next-auth/react";
 import db from "../../firebase";
 import moment from "moment";
+import Order from "../components/Order";
 
 const Orders = ({ orders }) => {
   const { data: session } = useSession();
@@ -16,12 +17,26 @@ const Orders = ({ orders }) => {
         </h1>
 
         {session ? (
-          <h2> x Orders </h2>
+          <h2> {orders.length} Orders </h2>
         ) : (
           <h2> Please sign in to see your orders </h2>
         )}
 
-        <div className="mt-5 space-y-4"></div>
+        <div className="mt-5 space-y-4">
+          {orders?.map(
+            ({ id, amount, amount_shipping, images, timestamp, items }) => (
+              <Order
+                key={id}
+                id={id}
+                amount={amount}
+                amountShipping={amount_shipping}
+                images={images}
+                timestamp={timestamp}
+                items={items}
+              />
+            )
+          )}
+        </div>
       </main>
     </div>
   );
@@ -50,7 +65,7 @@ export const getServerSideProps = async (context) => {
     stripeOrders.docs.map(async (order) => ({
       id: order.id,
       amount: order.data().amount,
-      amount_shipping: order.data().amount_shipping,
+      amountShipping: order.data().amount_shipping,
       images: order.data().images,
       timestamp: moment(order.data().timestamp.toDate()).unix(),
       items: (
