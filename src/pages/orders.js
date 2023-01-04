@@ -2,6 +2,7 @@ import React from "react";
 import Header from "../components/Header";
 import { getSession, useSession } from "next-auth/react";
 import db from "../../firebase";
+import { doc, orderBy, query, getDoc, collection } from "firebase/firestore";
 
 const Orders = ({ orders }) => {
   const { data: session } = useSession();
@@ -38,14 +39,13 @@ export const getServerSideProps = async (context) => {
     };
   }
 
-  // const stripeOrders = await db
-  //   .collection("users")
-  //   .doc(session.user.email)
-  //   .collection("orders")
-  //   .orderBy("timestamp", "desc")
-  //   .get();
+  const stripeOrders = await db
+    .collection("users")
+    .doc(session.user.email)
+    .collection("orders")
+    .orderBy("timestamp", "desc")
+    .get();
 
-  // Stripe orders
   const orders = await Promise.all(
     stripeOrders.docs.map(async (order) => ({
       id: order.id,
